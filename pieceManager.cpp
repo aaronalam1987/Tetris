@@ -20,19 +20,12 @@ void PieceManager::clearLines(int grid_width, std::vector<BlockPosition> &locked
         }
     }
 
-    // Print adjusted grid occupancy for debugging
-    std::cout << "Adjusted Grid Occupancy (Rows with Block Counts):\n";
-    for (int y = 0; y < 22; ++y) {
-        std::cout << "Row " << y << ": " << rowBlockCount[y] << " blocks\n";
-    }
-
     // Track rows that are full and need clearing
     std::vector<int> rowsToClear;
 
     // Check which rows are full and need to be cleared
     for (int y = 0; y < 22; ++y) {
         if (rowBlockCount[y] == grid_width) {  // If the row is full
-            std::cout << "Row " << y << " is full. Marking for clear.\n";
             rowsToClear.push_back(y);
             home.setScore((home.getScore() +1));
              audio.playSound(3);
@@ -53,12 +46,6 @@ void PieceManager::clearLines(int grid_width, std::vector<BlockPosition> &locked
                 pos.y += 1;
             }
         }
-    }
-
-    // Print locked blocks after clearing for debugging
-    std::cout << "Locked Blocks after Clearing:\n";
-    for (const auto& pos : lockedBlocks) {
-        std::cout << "(" << pos.x << ", " << pos.y << ")\n";
     }
 }
 

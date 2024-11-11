@@ -1,4 +1,4 @@
-LIBS = -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lopengl32 -lfreetype -lgdi32 -lsfml-main -lopenal32 -lflac -lvorbisenc -lvorbisfile -lvorbis -logg -lws2_32 -lsfml-system-s -lwinmm
+LIBS = -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lopengl32 -lfreetype -lgdi32 -lsfml-main -lopenal32 -lflac -lvorbisenc -lvorbisfile -lvorbis -logg -lws2_32 -lsfml-system-s -lwinmm -static-libgcc -static-libstdc++
 
 # Optional Libs / -static-libgcc -static-libstdc++
 
