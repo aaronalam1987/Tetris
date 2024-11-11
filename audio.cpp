@@ -2,9 +2,8 @@
 
 sf::SoundBuffer buffer;
 sf::SoundBuffer buffer2;
-sf::Sound pieceRotate;
 sf::Sound dropPiece;
-sf::Sound clearLine;
+sf::Sound soundEffect;
 sf::Music BGM;
 
 void Audio::loadAudio(){
@@ -22,8 +21,8 @@ void Audio::playSound(int sound){
     switch(sound){
         case 1:
             buffer.loadFromFile("assets/audio/pieceRotate.wav");
-            pieceRotate.setBuffer(buffer);
-            pieceRotate.play();
+            soundEffect.setBuffer(buffer);
+            soundEffect.play();
         break;
 
         case 2:
@@ -34,8 +33,14 @@ void Audio::playSound(int sound){
 
         case 3:
             buffer2.loadFromFile("assets/audio/clearLine.wav");
-            clearLine.setBuffer(buffer2);  
-            clearLine.play();
+            soundEffect.setBuffer(buffer2);  
+            soundEffect.play();
+        break;
+
+        case 4:
+            buffer.loadFromFile("assets/audio/startGame.wav");
+            soundEffect.setBuffer(buffer);  
+            soundEffect.play();
         break;
     }
     

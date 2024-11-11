@@ -13,6 +13,7 @@ class Graphics{
        sf::RectangleShape nextPieceArea();
        sf::RectangleShape scoreArea();
        sf::Text stats();
+       sf::Text startGame();
        void drawLockedPieces(sf::RenderWindow &window, std::vector<BlockPosition> &lockedBlocks, sf::Sprite &sprite);
        void drawCurrentPiece(sf::RenderWindow &window, sf::Sprite &currentSprite, int cPiece, sf::Vector2i &originPosition, std::vector<BlockPosition> &lockedBlocks);
        void drawNextBlock(sf::RenderWindow &window, sf::Sprite &nextSprite, int nPiece);

@@ -11,6 +11,8 @@ class Main{
         int dropSpeed = 2000;
         int score = 0;
         int level = 0;
+        bool doRotate = true;
+        bool gameStart = false;
         
     public:
     Main() = default;
@@ -37,6 +39,18 @@ class Main{
         void setLevel(int l){ level = l; }
         int getScore() const { return score; }
         void setScore(int sc){ score = sc; }
+
+        // Rotation flags.
+        bool getDoRotate(){ return doRotate; }
+        void setRotate(bool rotate){ doRotate = rotate; }
+
+        bool getGameStart(){
+            return gameStart;
+        }
+
+        void setGameStart(bool start){
+            gameStart = start;
+        }
 
 };
 #endif

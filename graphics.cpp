@@ -87,6 +87,22 @@ sf::Text Graphics::stats(){
     return stats;
 }
 
+// Draw stat text (score/level)
+sf::Text Graphics::startGame(){
+    sf::Text stats;
+
+    stats.setFont(font);
+    stats.setString("Press space to start");
+    stats.setCharacterSize(64);
+    stats.setFillColor(sf::Color::Black);
+    stats.setStyle(sf::Text::Bold);
+
+    // Set position centre to screen.
+    sf::FloatRect textBoundaries = stats.getGlobalBounds();
+    stats.setPosition((1024 - textBoundaries.width) / 2, (768 - textBoundaries.height) / 2);
+    return stats;
+}
+
 sf::Sprite Graphics::blockPiece(){
     return block;
 }

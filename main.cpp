@@ -55,11 +55,9 @@ int main()
     // Main game loop
     while (window.isOpen())
     {
+       
         // Clear display
         window.clear();
-        // Check if clock is greater than preset "drop speed", if so, drop piece one block.
-        pieceManager.dropPiece(gameClock, originPosition, lockedBlocks);
-
         // Check for events.
         while (window.pollEvent(event))
         {
@@ -73,20 +71,27 @@ int main()
 
         // Set up our game window, clear window, draw associated block by looping through array, display sprites.
         window.draw(background);
-        // Draw area that displays next piece.
-        window.draw(graphics.nextPieceArea());
-        // Draw score/level area.
-        window.draw(graphics.scoreArea());
-        // Draw stats
-        window.draw(graphics.stats());
-        // Draw playfield.
-        window.draw(graphics.playArea(home.gridWidth(), home.blockSize(), home.gridHeight()));
-        // Draw next piece.void Graphics::drawNextBlock(sf::RenderWindow &window, sf::Sprite &spriteNext, int nPiece){
-        graphics.drawNextBlock(window, nextSprite, home.getNextPiece());
-        // Draw falling piece.
-        graphics.drawCurrentPiece(window, currentSprite, home.getCurrentPiece(), originPosition, lockedBlocks);
-        // Draw all locked pieces.
-        graphics.drawLockedPieces(window, lockedBlocks, currentSprite);
+        if(home.getGameStart()){
+            // Check if clock is greater than preset "drop speed", if so, drop piece one block.
+            pieceManager.dropPiece(gameClock, originPosition, lockedBlocks);
+            // Draw area that displays next piece.
+            window.draw(graphics.nextPieceArea());
+            // Draw score/level area.
+            window.draw(graphics.scoreArea());
+            // Draw stats
+            window.draw(graphics.stats());
+            // Draw playfield.
+            window.draw(graphics.playArea(home.gridWidth(), home.blockSize(), home.gridHeight()));
+            // Draw next piece.void Graphics::drawNextBlock(sf::RenderWindow &window, sf::Sprite &spriteNext, int nPiece){
+            graphics.drawNextBlock(window, nextSprite, home.getNextPiece());
+            // Draw falling piece.
+            graphics.drawCurrentPiece(window, currentSprite, home.getCurrentPiece(), originPosition, lockedBlocks);
+            // Draw all locked pieces.
+            graphics.drawLockedPieces(window, lockedBlocks, currentSprite);
+        }
+        else{
+            window.draw(graphics.startGame());
+        }
         // Display everything.
         window.display();
     }
