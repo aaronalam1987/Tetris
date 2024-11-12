@@ -3,17 +3,17 @@ extern Pieces pieces;
 
 // Block definitions.
 const sf::Vector2i LBlock[4] = {
-    {0, 0},
     {0, -1},
-    {0, -2},
-    {1, 0}
+    {0,  0},
+    {0,  1},
+    {1,  1}
 };
 
 const sf::Vector2i LBlock2[4] = {
+    {0, -1},
     {0, 0},
-    {-1, 0},
-    {-2, 0},
-    {0, 1}
+    {0, 1},
+    {-1, 1}
 };
 
 const sf::Vector2i LineBlock[4] = {
@@ -45,10 +45,10 @@ const sf::Vector2i SBlock[4] = {
 };
 
 const sf::Vector2i SBlock2[4] = {
-    {0, 1},
+    {0, -1},
     {0, 0},
     {1, 0},
-    {1, -1}
+    {-1, -1}
 };
 
 sf::Vector2i tempPiece[4] = {
