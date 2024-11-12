@@ -5,12 +5,12 @@
 
 extern Graphics graphics;
 extern Pieces pieces;
-extern Main home;
+extern Main gameMain;
 extern PieceManager pieceManager;
 
 Graphics::Graphics(){
     if(!font.loadFromFile("assets/font.ttf")){
-        std::cout << "Error loading font." << std::endl;
+
     }
 }
 
@@ -71,12 +71,12 @@ sf::RectangleShape Graphics::scoreArea(){
     return scoreArea;
 }
 
-// Draw stat text (score/level)
+// Draw stat text (score/level).
 sf::Text Graphics::stats(){
     sf::Text stats;
 
     stats.setFont(font);
-    stats.setString("Current Score: \n " + std::to_string(home.getScore()) + "\n\n\n Current Level:\n" + std::to_string(home.getLevel()));
+    stats.setString("Current Score:\n " + std::to_string(gameMain.getScore()) + "\n\n\n Current Level:\n " + std::to_string(gameMain.getLevel()));
     stats.setCharacterSize(24);
     stats.setFillColor(sf::Color::Black);
     stats.setStyle(sf::Text::Bold);
@@ -87,20 +87,30 @@ sf::Text Graphics::stats(){
     return stats;
 }
 
-// Draw stat text (score/level)
-sf::Text Graphics::startGame(){
-    sf::Text stats;
+// Draw start screen logo.
+sf::RectangleShape Graphics::Logo(std:: string filename){
+    logo.loadFromFile(filename);
+    sf::RectangleShape Logo(sf::Vector2f(672, 256));
+    Logo.setTexture(&logo);
+    Logo.setPosition((1024 - 672) / 2, 70);
 
-    stats.setFont(font);
-    stats.setString("Press space to start");
-    stats.setCharacterSize(64);
-    stats.setFillColor(sf::Color::Black);
-    stats.setStyle(sf::Text::Bold);
+    return Logo;
+}
+
+// Draw start screen text.
+sf::Text Graphics::startGame(){
+    sf::Text start;
+
+    start.setFont(font);
+    start.setString("Press space to start");
+    start.setCharacterSize(64);
+    start.setFillColor(sf::Color::Black);
+    start.setStyle(sf::Text::Bold);
 
     // Set position centre to screen.
-    sf::FloatRect textBoundaries = stats.getGlobalBounds();
-    stats.setPosition((1024 - textBoundaries.width) / 2, (768 - textBoundaries.height) / 2);
-    return stats;
+    sf::FloatRect textBoundaries = start.getGlobalBounds();
+    start.setPosition((1024 - textBoundaries.width) / 2, 600);
+    return start;
 }
 
 sf::Sprite Graphics::blockPiece(){

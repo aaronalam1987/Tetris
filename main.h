@@ -1,6 +1,12 @@
 #ifndef MAIN_H
 #define MAIN_H
-#include "global.h"
+#include <SFML/Graphics.hpp>
+
+struct BlockPosition {
+    int x = 0;
+    int y = 0;
+    int c = 0;
+};
 
 class Main{
     private:
@@ -13,6 +19,8 @@ class Main{
         int level = 0;
         bool doRotate = true;
         bool gameStart = false;
+        bool showStartText = true;
+        
         
     public:
     Main() = default;
@@ -44,12 +52,16 @@ class Main{
         bool getDoRotate(){ return doRotate; }
         void setRotate(bool rotate){ doRotate = rotate; }
 
-        bool getGameStart(){
-            return gameStart;
+        bool getGameStart(){ return gameStart; }
+        void setGameStart(bool start){ gameStart = start; }
+
+        // Graphics specific.
+        bool getShowStartText(){
+            return showStartText;
         }
 
-        void setGameStart(bool start){
-            gameStart = start;
+        void setShowStartText(bool show){
+            showStartText = show;
         }
 
 };

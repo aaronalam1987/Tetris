@@ -1,9 +1,9 @@
 #ifndef ROTATION_H
 #define ROTATION_H
-
-#include "global.h"
+#include "main.h"
 
 const extern sf::Vector2i LBlock[4];
+const extern sf::Vector2i LBlock2[4];
 const extern sf::Vector2i LineBlock[4];
 const extern sf::Vector2i SqBlock[4];
 const extern sf::Vector2i TBlock[4];

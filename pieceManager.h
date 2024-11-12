@@ -1,7 +1,7 @@
 #ifndef PIECEMANAGER_H
 #define PIECEMANAGER_H
 
-#include "global.h"
+#include "main.h"
 #include "audio.h"
 
 class PieceManager{

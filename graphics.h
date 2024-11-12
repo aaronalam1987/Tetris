@@ -1,11 +1,12 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "global.h"
+#include "main.h"
 
 class Graphics{
     public:
     Graphics();
+       sf::RectangleShape Logo(std:: string filename);
        sf::Sprite loadBlock(std::string filename);
        sf::Sprite loadBG(std::string filename);
        sf::Sprite blockPiece();
@@ -22,6 +23,7 @@ class Graphics{
         sf::Font font;
         sf::Texture texture;
         sf::Texture texture2;
+        sf::Texture logo;
         sf::Sprite block;
         sf::Sprite bg;
 };

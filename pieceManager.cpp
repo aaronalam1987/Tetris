@@ -3,7 +3,7 @@
 #include "pieces.h"
 #include "main.h"
 
-extern Main home;
+extern Main gameMain;
 extern Audio audio;
 extern Pieces pieces;
 extern InputMonitor inputMonitor;
@@ -27,7 +27,7 @@ void PieceManager::clearLines(int grid_width, std::vector<BlockPosition> &locked
     for (int y = 0; y < 22; ++y) {
         if (rowBlockCount[y] == grid_width) {  // If the row is full
             rowsToClear.push_back(y);
-            home.setScore((home.getScore() +1));
+            gameMain.setScore((gameMain.getScore() +1));
              audio.playSound(3);
         }
     }
@@ -53,7 +53,7 @@ void PieceManager::checkInput(std::vector<BlockPosition> &lockedBlocks, sf::Vect
     int getInput = inputMonitor.monitorInput();
     switch(getInput){
         case 1:
-        if (originPosition.y <= home.gridHeight() && !collisionCheck(pieces.currentBlock(), originPosition.x, originPosition.y + 1, lockedBlocks)) {
+        if (originPosition.y <= gameMain.gridHeight() && !collisionCheck(pieces.currentBlock(), originPosition.x, originPosition.y + 1, lockedBlocks)) {
             originPosition.y += 1;
             }
             else {
@@ -93,17 +93,17 @@ void PieceManager::lockPiece(const sf::Vector2i block[], int originX, int origin
     for (int i = 0; i < 4; ++i) {
         int x = originX + block[i].x;
         int y = originY + block[i].y;
-        lockedBlocks.push_back({x, y, home.getCurrentPiece()});
+        lockedBlocks.push_back({x, y, gameMain.getCurrentPiece()});
     }
 }
 
 // Checks for elapsed time and drops piece to suit. 
 void PieceManager::dropPiece(sf::Clock& clock, sf::Vector2i &originPosition, std::vector<BlockPosition> &lockedBlocks){
     // Get elapsed time and compare to drop speed, if greater than or equal to, drop block one space and restart clock.
-    if (clock.getElapsedTime().asMilliseconds() >= home.getDropSpeed()) {
+    if (clock.getElapsedTime().asMilliseconds() >= gameMain.getDropSpeed()) {
         clock.restart();
         // Check piece is within playField.
-        if (originPosition.y < home.gridHeight()- 1) {
+        if (originPosition.y < gameMain.gridHeight()- 1) {
             originPosition.y += 1;
         } 
         else {
@@ -117,15 +117,15 @@ void PieceManager::pieceSettled(sf::Vector2i &originPosition, std::vector<BlockP
     // Lockpiece by placing it's coordinates in the lockedBlocks array.
     pieceManager.lockPiece(pieces.currentBlock(), originPosition.x, originPosition.y, lockedBlocks);
     // Check if we have any lines to clear.
-    pieceManager.clearLines(home.gridWidth(), lockedBlocks);
+    pieceManager.clearLines(gameMain.gridWidth(), lockedBlocks);
     // Reset origin position for new block.
     originPosition.x = 16;
     originPosition.y = 4;
     // Set new current piece to "next" piece.
-    home.setCurrentPiece(home.getNextPiece());
+    gameMain.setCurrentPiece(gameMain.getNextPiece());
     // Set current block to new block.
-    pieces.setCurrentBlock(home.getCurrentPiece());
+    pieces.setCurrentBlock(gameMain.getCurrentPiece());
     pieces.newBlock(pieces.getCurrentBlock());
     // Set next piece to a random between 1-4 (this eventually becomes current piece).
-    home.setNextPiece(rand() % 5 + 1);
+    gameMain.setNextPiece(rand() % 7 + 1);
 }

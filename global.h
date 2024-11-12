@@ -3,10 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
-extern sf::Vector2i originPosition; 
-struct BlockPosition {
-    int x;
-    int y;
-    int c;
-};
+
+
 #endif

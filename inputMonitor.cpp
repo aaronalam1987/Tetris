@@ -1,4 +1,3 @@
-#include "global.h"
 #include "inputMonitor.h"
 #include "pieces.h"
 #include "audio.h"
@@ -8,7 +7,7 @@ extern sf::Event event;
 extern Pieces pieces;
 extern Audio audio;
 extern InputMonitor inputMonitor;
-extern Main home;
+extern Main gameMain;
 
 int key = 4;
 
@@ -19,7 +18,7 @@ int InputMonitor::monitorInput(){
 
     // Check if rotation flag is true, if so, rotate piece and set to false (stops spamming rotation).
     keyActions[sf::Keyboard::Space] = [&]()
-    { if(home.getGameStart()){ if(home.getDoRotate()){ pieces.rotatePiece(); audio.playSound(1); home.setRotate(false);} } else { audio.playSound(4); home.setGameStart(true);}};
+    { if(gameMain.getGameStart()){ if(gameMain.getDoRotate()){ pieces.rotatePiece(); audio.playSound(1); gameMain.setRotate(false);} } else { audio.playSound(4); gameMain.setGameStart(true);}};
 
      keyActions[sf::Keyboard::Down] = [&]()
     { audio.playSound(2); key = 1; };
@@ -43,7 +42,7 @@ int InputMonitor::monitorInput(){
     // Check if space has been lifted, allow rotation.
     if(event.type == sf::Event::KeyReleased){
         if(sf::Keyboard::Space){
-            home.setRotate(true);
+            gameMain.setRotate(true);
         }
     }
     int returnKey = key;

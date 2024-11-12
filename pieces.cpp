@@ -9,6 +9,13 @@ const sf::Vector2i LBlock[4] = {
     {1, 0}
 };
 
+const sf::Vector2i LBlock2[4] = {
+    {0, 0},
+    {-1, 0},
+    {-2, 0},
+    {0, 1}
+};
+
 const sf::Vector2i LineBlock[4] = {
     {0, 0},
     {0, -1},
@@ -35,6 +42,13 @@ const sf::Vector2i SBlock[4] = {
     {0, 0},
     {0, 1},
     {-1, 1}
+};
+
+const sf::Vector2i SBlock2[4] = {
+    {0, 1},
+    {0, 0},
+    {1, 0},
+    {1, -1}
 };
 
 sf::Vector2i tempPiece[4] = {
@@ -79,6 +93,16 @@ void Pieces::newBlock(int block){
                 tempPiece[i] = {SBlock[i].x, SBlock[i].y};
             }
             break;
+        case 6:
+            for (int i = 0; i < 4; i++){
+                tempPiece[i] = {LBlock2[i].x, LBlock2[i].y};
+            }
+            break;
+        case 7:
+            for (int i = 0; i < 4; i++){
+                tempPiece[i] = {SBlock2[i].x, SBlock2[i].y};
+            }
+            break;
     }
 
 }
@@ -99,6 +123,10 @@ const sf::Vector2i* Pieces::nextBlock(int block){
             return TBlock;
         case 5:
             return SBlock;
+        case 6:
+            return LBlock2;
+        case 7:
+            return SBlock2;
         default:
             return nullptr;
     }
@@ -116,6 +144,10 @@ sf::Color Pieces::getBlockColor(int c){
             return sf::Color::Red;
         case 5:
             return sf::Color::Yellow;
+        case 6:
+            return sf::Color::Cyan;
+        case 7:
+            return sf::Color::Magenta;
         default:
             return sf::Color::White;
     }
