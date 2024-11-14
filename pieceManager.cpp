@@ -148,14 +148,18 @@ void PieceManager::dropPiece(sf::Clock &clock, sf::Vector2i &originPosition, std
     // Get elapsed time and compare to drop speed, if greater than or equal to, drop block one space and restart clock.
     if (clock.getElapsedTime().asMilliseconds() >= gameMain.getDropSpeed())
     {
-        clock.restart();
-        // Check piece is within playField.
-        if (originPosition.y < gameMain.gridHeight() - 1)
+        if (originPosition.y <= gameMain.gridHeight() && !collisionCheck(pieces.currentBlock(), originPosition.x, originPosition.y + 1, lockedBlocks))
         {
-            originPosition.y += 1;
+            clock.restart();
+            // Check piece is within playField.
+            if (originPosition.y < gameMain.gridHeight())
+            {
+                originPosition.y += 1;
+            }
         }
         else
         {
+            // Piece has either hit another block or the bottom of the play field, call pieceSettled.
             pieceManager.pieceSettled(originPosition, lockedBlocks);
         }
     }
