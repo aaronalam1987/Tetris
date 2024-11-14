@@ -8,9 +8,10 @@ extern Pieces pieces;
 extern Main gameMain;
 extern PieceManager pieceManager;
 
-Graphics::Graphics(){
-    if(!font.loadFromFile("assets/font.ttf")){
-
+Graphics::Graphics()
+{
+    if (!font.loadFromFile("assets/font.ttf"))
+    {
     }
 }
 
@@ -30,10 +31,11 @@ sf::Sprite Graphics::loadBG(std::string filename)
 }
 
 // Define our playfield.
-sf::RectangleShape Graphics::playArea(int grid_width, int block_size, int grid_height){
+sf::RectangleShape Graphics::playArea(int grid_width, int block_size, int grid_height)
+{
 
     sf::RectangleShape playArea(sf::Vector2f(grid_width * block_size, grid_height * block_size));
-    playArea.setFillColor(sf::Color(255,255,255,128));
+    playArea.setFillColor(sf::Color(255, 255, 255, 128));
     playArea.setOutlineColor(sf::Color::Cyan);
     playArea.setOutlineThickness(2);
 
@@ -44,10 +46,11 @@ sf::RectangleShape Graphics::playArea(int grid_width, int block_size, int grid_h
 }
 
 // Define the area which displays the next piece.
-sf::RectangleShape Graphics::nextPieceArea(){
+sf::RectangleShape Graphics::nextPieceArea()
+{
 
     sf::RectangleShape nextPieceArea(sf::Vector2f(200, 200));
-    nextPieceArea.setFillColor(sf::Color(255,255,255,128));
+    nextPieceArea.setFillColor(sf::Color(255, 255, 255, 128));
     nextPieceArea.setOutlineColor(sf::Color::Cyan);
     nextPieceArea.setOutlineThickness(2);
 
@@ -58,10 +61,11 @@ sf::RectangleShape Graphics::nextPieceArea(){
 }
 
 // Define the area which displays the next piece.
-sf::RectangleShape Graphics::scoreArea(){
+sf::RectangleShape Graphics::scoreArea()
+{
 
     sf::RectangleShape scoreArea(sf::Vector2f(200, 200));
-    scoreArea.setFillColor(sf::Color(255,255,255,128));
+    scoreArea.setFillColor(sf::Color(255, 255, 255, 128));
     scoreArea.setOutlineColor(sf::Color::Cyan);
     scoreArea.setOutlineThickness(2);
 
@@ -72,7 +76,8 @@ sf::RectangleShape Graphics::scoreArea(){
 }
 
 // Draw stat text (score/level).
-sf::Text Graphics::stats(){
+sf::Text Graphics::stats()
+{
     sf::Text stats;
 
     stats.setFont(font);
@@ -88,7 +93,8 @@ sf::Text Graphics::stats(){
 }
 
 // Draw start screen logo.
-sf::RectangleShape Graphics::Logo(std:: string filename){
+sf::RectangleShape Graphics::Logo(std::string filename)
+{
     logo.loadFromFile(filename);
     sf::RectangleShape Logo(sf::Vector2f(672, 256));
     Logo.setTexture(&logo);
@@ -98,7 +104,8 @@ sf::RectangleShape Graphics::Logo(std:: string filename){
 }
 
 // Draw start screen text.
-sf::Text Graphics::startGame(){
+sf::Text Graphics::startGame()
+{
     sf::Text start;
 
     start.setFont(font);
@@ -113,48 +120,109 @@ sf::Text Graphics::startGame(){
     return start;
 }
 
-sf::Sprite Graphics::blockPiece(){
+// Draw game over text.
+sf::Text Graphics::gameOver()
+{
+    sf::Text gameOver;
+
+    gameOver.setFont(font);
+    gameOver.setString("Game Over");
+    gameOver.setCharacterSize(64);
+    gameOver.setFillColor(sf::Color::Black);
+    gameOver.setStyle(sf::Text::Bold);
+
+    // Set position within area on right of screen.
+    sf::FloatRect textBoundaries = gameOver.getGlobalBounds();
+    gameOver.setPosition((1024 - textBoundaries.width) / 2, (768 - textBoundaries.height) / 2);
+
+    return gameOver;
+}
+
+sf::Sprite Graphics::blockPiece()
+{
     return block;
 }
 
-void Graphics::drawCurrentPiece(sf::RenderWindow &window, sf::Sprite &currentSprite, int cPiece, sf::Vector2i &originPosition, std::vector<BlockPosition> &lockedBlocks){
+void Graphics::drawCurrentPiece(sf::RenderWindow &window, sf::Sprite &currentSprite, int cPiece, sf::Vector2i &originPosition, std::vector<BlockPosition> &lockedBlocks)
+{
     auto block = pieces.currentBlock();
-    if(block){
-        for(int i = 0; i < 4; i++){
+    if (block)
+    {
+        for (int i = 0; i < 4; i++)
+        {
             // Check if we are trying to draw outside of playfield (which rotation can do), if so, move in a block.
-
-            if(originPosition.x + block[i].x < 10){
+            if (originPosition.x + block[i].x < 10)
+            {
                 originPosition.x += 1;
-                }
-                if(originPosition.x + block[i].x > 21){
-                    originPosition.x -= 1;
-                }
-                if(originPosition.y + block[i].y > 21){
-                    originPosition.y -= 1;
-                    pieceManager.pieceSettled(originPosition, lockedBlocks);
-                }
-                // Draw current shape from block sprite.  
-                currentSprite.setPosition((originPosition.x + block[i].x) * 32, (originPosition.y + block[i].y) * 32);
-                currentSprite.setColor(pieces.getBlockColor(cPiece));
-                window.draw(currentSprite);
-                }
+            }
+            if (originPosition.x + block[i].x > 21)
+            {
+                originPosition.x -= 1;
+            }
+            if (originPosition.y + block[i].y > 21)
+            {
+                originPosition.y -= 1;
+                pieceManager.pieceSettled(originPosition, lockedBlocks);
+            }
+            // Draw current shape from block sprite.
+            currentSprite.setPosition((originPosition.x + block[i].x) * 32, (originPosition.y + block[i].y) * 32);
+            currentSprite.setColor(pieces.getBlockColor(cPiece));
+            window.draw(currentSprite);
+        }
     }
 }
 
-void Graphics::drawNextBlock(sf::RenderWindow &window, sf::Sprite &nextSprite, int nPiece){
+void Graphics::drawNextBlock(sf::RenderWindow &window, sf::Sprite &nextSprite, int nPiece)
+{
     auto blockNext = pieces.nextBlock(nPiece);
-    if(blockNext){
-        for (int i = 0; i < 4; i++){
-            nextSprite.setPosition((4 + blockNext[i].x) * 32, (4 + blockNext[i].y) * 32);
-            window.draw(nextSprite);
-            }
+    if (blockNext)
+    {
+        // Calculate the center of the nextPieceArea.
+        float nextPieceAreaX = 80;
+        float nextPieceAreaY = 64;
+        float nextPieceAreaWidth = 200;
+        float nextPieceAreaHeight = 200;
+
+        // Find the bounding box of the piece.
+        int minX = blockNext[0].x, maxX = blockNext[0].x;
+        int minY = blockNext[0].y, maxY = blockNext[0].y;
+
+        for (int i = 1; i < 4; i++)
+        {
+            if (blockNext[i].x < minX) minX = blockNext[i].x;
+            if (blockNext[i].x > maxX) maxX = blockNext[i].x;
+            if (blockNext[i].y < minY) minY = blockNext[i].y;
+            if (blockNext[i].y > maxY) maxY = blockNext[i].y;
         }
+
+        // Calculate piece width and height in pixels.
+        float pieceWidth = (maxX - minX + 1) * 32;
+        float pieceHeight = (maxY - minY + 1) * 32;
+
+        // Center position within the nextPieceArea.
+        float centerX = nextPieceAreaX + (nextPieceAreaWidth - pieceWidth) / 2;
+        float centerY = nextPieceAreaY + (nextPieceAreaHeight - pieceHeight) / 2;
+
+        // Draw each block of the piece, offsetting by the bounding boxs top-left corner.
+        for (int i = 0; i < 4; i++)
+        {
+            nextSprite.setPosition(
+                centerX + (blockNext[i].x - minX) * 32,
+                centerY + (blockNext[i].y - minY) * 32
+            );
+            nextSprite.setColor(pieces.getBlockColor(gameMain.getNextPiece()));
+            window.draw(nextSprite);
+        }
+    }
 }
 
-void Graphics::drawLockedPieces(sf::RenderWindow &window, std::vector<BlockPosition> &lockedBlocks, sf::Sprite &sprite){
-    for (const auto& pos : lockedBlocks) {
-            sprite.setPosition(pos.x * 32, pos.y * 32);
-            sprite.setColor(pieces.getBlockColor(pos.c));
-            window.draw(sprite);
-        }
+
+void Graphics::drawLockedPieces(sf::RenderWindow &window, std::vector<BlockPosition> &lockedBlocks, sf::Sprite &sprite)
+{
+    for (const auto &pos : lockedBlocks)
+    {
+        sprite.setPosition(pos.x * 32, pos.y * 32);
+        sprite.setColor(pieces.getBlockColor(pos.c));
+        window.draw(sprite);
+    }
 }

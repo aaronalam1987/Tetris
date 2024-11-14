@@ -2,11 +2,13 @@
 #define AUDIO_H
 #include <SFML/Audio.hpp>
 
-class Audio{
-    public:
-        void loadAudio();
-        void playBGM();
-        void playSound(int sound);
+class Audio
+{
+public:
+    void loadAudio();
+    void playBGM();
+    void stopBGM();
+    void playSound(int sound);
 };
 
 #endif
