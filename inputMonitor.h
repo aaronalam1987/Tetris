@@ -4,25 +4,23 @@
 #include <map>
 #include <functional>
 #include <SFML/Graphics.hpp>
-enum keys{
+
+// Definitions for keys.
+enum keys
+{
+    NA,
     DOWN,
     LEFT,
-    RIGHT,
-    UP
+    RIGHT
 };
-
-
 
 class InputMonitor
 {
 private:
-    
-
 public:
-    InputMonitor() {};
+    InputMonitor() = default;
 
     int monitorInput(sf::RenderWindow &window);
-    
 };
 
 #endif

@@ -1,27 +1,34 @@
 #include "audio.h"
 
-sf::SoundBuffer rotateBuffer;
-sf::SoundBuffer dropBuffer;
-sf::SoundBuffer clearBuffer;
-sf::SoundBuffer startBuffer;
-sf::SoundBuffer gameOverBuffer;
+extern Audio audio;
 
-sf::Sound rotateSound;
-sf::Sound dropSound;
-sf::Sound clearSound;
-sf::Sound startSound;
-sf::Sound gameOverSound;
+Audio::Audio()
+{
+    soundMap = {
+        {1, &rotateSound},
+        {2, &dropSound},
+        {3, &clearSound},
+        {4, &startSound},
+        {5, &gameOverSound}
 
-sf::Music BGM;
+    };
+}
 
 void Audio::loadAudio()
 {
-    // Load all buffers at the start
+    // Load all buffers at the start.
     rotateBuffer.loadFromFile("assets/audio/pieceRotate.wav");
     dropBuffer.loadFromFile("assets/audio/dropPiece.wav");
     clearBuffer.loadFromFile("assets/audio/clearLine.wav");
     startBuffer.loadFromFile("assets/audio/startGame.wav");
     gameOverBuffer.loadFromFile("assets/audio/gameOver.ogg");
+
+    // Load all buffers into sound.
+    rotateSound.setBuffer(rotateBuffer);
+    dropSound.setBuffer(dropBuffer);
+    clearSound.setBuffer(clearBuffer);
+    startSound.setBuffer(startBuffer);
+    gameOverSound.setBuffer(gameOverBuffer);
 }
 
 void Audio::playBGM()
@@ -39,31 +46,8 @@ void Audio::stopBGM()
 
 void Audio::playSound(int sound)
 {
-    switch (sound)
+    if (soundMap.find(sound) != soundMap.end())
     {
-    case 1:
-        rotateSound.setBuffer(rotateBuffer);
-        rotateSound.play();
-        break;
-
-    case 2:
-        dropSound.setBuffer(dropBuffer);
-        dropSound.play();
-        break;
-
-    case 3:
-        clearSound.setBuffer(clearBuffer);
-        clearSound.play();
-        break;
-
-    case 4:
-        startSound.setBuffer(startBuffer);
-        startSound.play();
-        break;
-
-    case 5:
-        gameOverSound.setBuffer(gameOverBuffer);
-        gameOverSound.play();
-        break;
+        soundMap[sound]->play();
     }
 }

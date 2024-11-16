@@ -9,6 +9,7 @@ extern Audio audio;
 extern InputMonitor inputMonitor;
 extern Main gameMain;
 int key = 4;
+keys Keys;
 
 int InputMonitor::monitorInput(sf::RenderWindow &window)
 {

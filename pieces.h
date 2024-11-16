@@ -12,9 +12,6 @@ extern sf::Vector2i tempPiece[4];
 
 class Pieces
 {
-private:
-    int cBlock;
-
 public:
     Pieces() {};
 
@@ -26,6 +23,9 @@ public:
 
     int getCurrentBlock() { return cBlock; }
     void setCurrentBlock(int currBlock) { cBlock = currBlock; }
+
+private:
+    int cBlock;
 };
 
 #endif

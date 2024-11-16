@@ -11,19 +11,6 @@ struct BlockPosition
 
 class Main
 {
-private:
-    const int grid_width = 12;
-    const int grid_height = 20;
-    const int block_size = 32;
-    int nPiece[2] = {0};
-    int dropSpeed = 2000;
-    int score = 0;
-    int level = 0;
-    bool doRotate = true;
-    bool gameStart = false;
-    bool showStartText = true;
-    bool gameOver = false;
-
 public:
     Main() = default;
     // Game logic specific.
@@ -50,7 +37,7 @@ public:
     int getScore() const { return score; }
     void setScore(int sc) { score = sc; }
     int getGameOver() { return gameOver; }
-    void setGameOver(bool game){ gameOver = game; }
+    void setGameOver(bool game) { gameOver = game; }
 
     // Rotation flags.
     bool getDoRotate() { return doRotate; }
@@ -64,5 +51,18 @@ public:
     void setShowStartText(bool show) { showStartText = show; }
 
     void resetGame();
+
+private:
+    const int grid_width = 12;
+    const int grid_height = 20;
+    const int block_size = 32;
+    int nPiece[2] = {0};
+    int dropSpeed = 2000;
+    int score = 0;
+    int level = 0;
+    bool doRotate = true;
+    bool gameStart = false;
+    bool showStartText = true;
+    bool gameOver = false;
 };
 #endif

@@ -189,10 +189,14 @@ void Graphics::drawNextBlock(sf::RenderWindow &window, sf::Sprite &nextSprite, i
 
         for (int i = 1; i < 4; i++)
         {
-            if (blockNext[i].x < minX) minX = blockNext[i].x;
-            if (blockNext[i].x > maxX) maxX = blockNext[i].x;
-            if (blockNext[i].y < minY) minY = blockNext[i].y;
-            if (blockNext[i].y > maxY) maxY = blockNext[i].y;
+            if (blockNext[i].x < minX)
+                minX = blockNext[i].x;
+            if (blockNext[i].x > maxX)
+                maxX = blockNext[i].x;
+            if (blockNext[i].y < minY)
+                minY = blockNext[i].y;
+            if (blockNext[i].y > maxY)
+                maxY = blockNext[i].y;
         }
 
         // Calculate piece width and height in pixels.
@@ -208,14 +212,12 @@ void Graphics::drawNextBlock(sf::RenderWindow &window, sf::Sprite &nextSprite, i
         {
             nextSprite.setPosition(
                 centerX + (blockNext[i].x - minX) * 32,
-                centerY + (blockNext[i].y - minY) * 32
-            );
+                centerY + (blockNext[i].y - minY) * 32);
             nextSprite.setColor(pieces.getBlockColor(gameMain.getNextPiece()));
             window.draw(nextSprite);
         }
     }
 }
-
 
 void Graphics::drawLockedPieces(sf::RenderWindow &window, std::vector<BlockPosition> &lockedBlocks, sf::Sprite &sprite)
 {
