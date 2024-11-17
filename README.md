@@ -70,3 +70,6 @@ Here is a preview of the game:
 * **Font**: [Khurasan on dafont](https://www.dafont.com/khurasan.d5849)
 
 ## License  
+This project is open-source and available under the MIT License.  
+
+Feel free to fork, modify and contribute!
