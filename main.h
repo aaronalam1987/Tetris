@@ -32,12 +32,22 @@ public:
     // Gameplay specifics.
     int getDropSpeed() const { return dropSpeed; }
     void setDropSpeed(int speed) { dropSpeed = speed; }
-    int getLevel() const { return level; }
-    void setLevel(int l) { level = l; }
+    int getTotalLines() const { return totalLines; }
+    void setTotalLines(int l) { totalLines = l; }
     int getScore() const { return score; }
     void setScore(int sc) { score = sc; }
     int getGameOver() { return gameOver; }
     void setGameOver(bool game) { gameOver = game; }
+    void setIsEvent(bool event) { isEvent = event; }
+    bool getIsEvent() { return isEvent; }
+    std::string getEventText() { return eventText; }
+    void setEventText(std::string event) { eventText = event; }
+    bool getLoadHighScores() { return loadHighScores; }
+    void setLoadHighScores(bool load) { loadHighScores = load; }
+    std::string getHighScores() { return highScores; }
+    void setHighScores(std::string scores){ highScores = scores; }
+    bool getUpdateHighScores() { return updateHighScore; }
+    void setUpdateHighScores(bool scores){ updateHighScore = scores; }
 
     // Rotation flags.
     bool getDoRotate() { return doRotate; }
@@ -59,10 +69,15 @@ private:
     int nPiece[2] = {0};
     int dropSpeed = 2000;
     int score = 0;
-    int level = 0;
+    int totalLines = 0;
     bool doRotate = true;
     bool gameStart = false;
     bool showStartText = true;
     bool gameOver = false;
+    bool isEvent = false;
+    std::string eventText = "";
+    bool loadHighScores = true;
+    std::string highScores = "";
+    bool updateHighScore = true;
 };
 #endif

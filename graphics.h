@@ -13,10 +13,15 @@ public:
     sf::Sprite blockPiece();
     sf::RectangleShape playArea(int grid_width, int block_size, int grid_height);
     sf::RectangleShape nextPieceArea();
+    sf::RectangleShape highScores();
     sf::RectangleShape scoreArea();
+    sf::RectangleShape highscoreEntry();
+    sf::Text highscoreEntryText();
     sf::Text stats();
+    sf::Text highScoreText();
     sf::Text startGame();
     sf::Text gameOver();
+    sf::Text eventText(std::string text);
     void drawLockedPieces(sf::RenderWindow &window, std::vector<BlockPosition> &lockedBlocks, sf::Sprite &sprite);
     void drawCurrentPiece(sf::RenderWindow &window, sf::Sprite &currentSprite, int cPiece, sf::Vector2i &originPosition, std::vector<BlockPosition> &lockedBlocks);
     void drawNextBlock(sf::RenderWindow &window, sf::Sprite &nextSprite, int nPiece);

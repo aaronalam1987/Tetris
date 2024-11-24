@@ -42,21 +42,65 @@ void PieceManager::clearLines(int grid_width, std::vector<BlockPosition> &locked
 
     std::vector<int> rowsToClear;
 
+    // Store the total lines that are cleared.
+    int totalLines = 0;
+    // Store the total score to add.
+    int scoreToAdd = 0;
     // Check which rows are full and need to be cleared.
     for (int y = 0; y < 22; ++y)
     {
         if (rowBlockCount[y] == grid_width)
         {
-            // If the row is full, add to rowsToClear vector and increase score by 1.
+            // If the row is full, add to rowsToClear vector, increase score by 10 points.
             rowsToClear.push_back(y);
-            gameMain.setScore((gameMain.getScore() + 1));
+            // Increment score by 10 per line.
+            scoreToAdd += 10;
             // After 10 cleared lines, if dropSpeed is greater than 100ms, reduce by 25ms per cleared line.
             if (gameMain.getDropSpeed() > 100 && gameMain.getScore() > 10)
             {
                 gameMain.setDropSpeed(gameMain.getDropSpeed() - 25);
             }
+            // Play piece cleared sound.
             audio.playSound(3);
+            // Count up total lines to clear to calculate bonus score.
+            totalLines += 1;
+            // Add to totalLine count.
+            gameMain.setTotalLines(gameMain.getTotalLines() + 1);
         }
+    }
+
+    // If there is score to add, create string for event text and add score.
+    if (scoreToAdd != 0)
+    {
+        // Add additional points if more than 1 line is cleared at a time.
+        int bonus = (totalLines == 2) ? 3 : (totalLines == 3) ? 5
+                                        : (totalLines == 4)   ? 7
+                                                              : 0;
+
+        if (bonus > 0)
+        {
+            if (bonus == 3)
+            {
+                gameMain.setEventText("Double Line! +" + std::to_string(scoreToAdd + bonus) + "!");
+            }
+            if (bonus == 5)
+            {
+                gameMain.setEventText("Triple Line!! +" + std::to_string(scoreToAdd + bonus) + "!");
+            }
+            if (bonus == 7)
+            {
+                gameMain.setEventText("Quad Line!!! +" + std::to_string(scoreToAdd + bonus) + "!");
+            }
+        }
+        else
+        {
+            // No bonus score thus only a single cleared line.
+            gameMain.setEventText("Line Cleared! +10");
+        }
+        // Trigger event.
+        gameMain.setIsEvent(true);
+        // Increase current score.
+        gameMain.setScore(gameMain.getScore() + scoreToAdd + bonus);
     }
 
     // Remove blocks in marked rows.

@@ -2,7 +2,9 @@
 #include "pieces.h"
 #include "main.h"
 #include "pieceManager.h"
+#include "highScores.h"
 
+extern highScores highscores;
 extern Graphics graphics;
 extern Pieces pieces;
 extern Main gameMain;
@@ -60,6 +62,21 @@ sf::RectangleShape Graphics::nextPieceArea()
     return nextPieceArea;
 }
 
+// Define the area which displays the highscores.
+sf::RectangleShape Graphics::highScores()
+{
+
+    sf::RectangleShape highScores(sf::Vector2f(200, 250));
+    highScores.setFillColor(sf::Color(255, 255, 255, 128));
+    highScores.setOutlineColor(sf::Color::Cyan);
+    highScores.setOutlineThickness(2);
+
+    // Set position to the left of the play field.
+    highScores.setPosition(80, 328);
+
+    return highScores;
+}
+
 // Define the area which displays the next piece.
 sf::RectangleShape Graphics::scoreArea()
 {
@@ -75,13 +92,33 @@ sf::RectangleShape Graphics::scoreArea()
     return scoreArea;
 }
 
+// Highscore entry area.
+#include <SFML/Graphics.hpp>
+
+sf::RectangleShape Graphics::highscoreEntry() {
+    // Create the rectangle shape
+    sf::RectangleShape highScoreArea(sf::Vector2f(400, 150));
+    highScoreArea.setFillColor(sf::Color::White);
+    highScoreArea.setOutlineColor(sf::Color::Cyan);
+    highScoreArea.setOutlineThickness(2);
+    
+    // Set the position of the rectangle
+    sf::FloatRect boundaries = highScoreArea.getGlobalBounds();
+    highScoreArea.setPosition((1024 - boundaries.width) / 2, 200);
+
+    
+
+    // Return both elements, to be drawn separately
+    return highScoreArea;
+}
+
 // Draw stat text (score/level).
 sf::Text Graphics::stats()
 {
     sf::Text stats;
 
     stats.setFont(font);
-    stats.setString("Current Score:\n " + std::to_string(gameMain.getScore()) + "\n\n\n Current Level:\n " + std::to_string(gameMain.getLevel()));
+    stats.setString("Current Score:\n " + std::to_string(gameMain.getScore()) + "\n\n\n Total Lines:\n " + std::to_string(gameMain.getTotalLines()));
     stats.setCharacterSize(24);
     stats.setFillColor(sf::Color::Black);
     stats.setStyle(sf::Text::Bold);
@@ -90,6 +127,23 @@ sf::Text Graphics::stats()
     stats.setPosition(754, 74);
 
     return stats;
+}
+
+// Draw highscores text.
+sf::Text Graphics::highScoreText()
+{
+    sf::Text highScoreText;
+
+    highScoreText.setFont(font);
+    highScoreText.setString("Highscores:\n" + gameMain.getHighScores());
+    highScoreText.setCharacterSize(18);
+    highScoreText.setFillColor(sf::Color::Black);
+    highScoreText.setStyle(sf::Text::Bold);
+
+    // Set position within area on right of screen.
+    highScoreText.setPosition(90, 338);
+
+    return highScoreText;
 }
 
 // Draw start screen logo.
@@ -136,6 +190,23 @@ sf::Text Graphics::gameOver()
     gameOver.setPosition((1024 - textBoundaries.width) / 2, (768 - textBoundaries.height) / 2);
 
     return gameOver;
+}
+
+// Draw event text.
+sf::Text Graphics::eventText(std::string text){
+    sf::Text eventText;
+
+    eventText.setFont(font);
+    eventText.setString(text);
+    eventText.setCharacterSize(24);
+    eventText.setFillColor(sf::Color(6, 66, 156));
+    eventText.setStyle(sf::Text::Bold);
+
+    sf::FloatRect textBoundaries = eventText.getGlobalBounds();
+    eventText.setPosition((1024 - textBoundaries.width) / 2, (25)) ;
+
+    return eventText;
+    
 }
 
 sf::Sprite Graphics::blockPiece()

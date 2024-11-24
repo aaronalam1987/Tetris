@@ -2,14 +2,14 @@ LIBS = -lsfml-graphics-s -lsfml-window-s -lsfml-audio-s -lopengl32 -lfreetype -l
 
 # Optional Libs / -static-libgcc -static-libstdc++ -static
 
-OBJS = main.o inputMonitor.o pieces.o audio.o graphics.o pieceManager.o # List of object files
+OBJS = main.o inputMonitor.o pieces.o audio.o graphics.o pieceManager.o highScores.o # List of object files
 
 # -mwindows << reinclude this on non-debug.
 all: compile link clean run
 
 compile: $(OBJS)
 
-# Compile both main.cpp and inputMonitor.cpp
+# Compile all cpp files.
 %.o: %.cpp
 	g++ -c $< -o $@ -I"C:\SFML-2.5.1\include" -DSFML_STATIC
 

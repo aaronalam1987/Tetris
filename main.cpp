@@ -4,7 +4,7 @@
 #include "graphics.h"
 #include "main.h"
 #include "pieceManager.h"
-
+#include "highScores.h"
 #include <iostream>
 #include <SFML/System/Clock.hpp>
 #include <time.h>
@@ -18,8 +18,9 @@ sf::RectangleShape Logo;
 sf::Vector2i originPosition(16, 3);
 sf::Sprite nextSprite;
 sf::Clock gameClock;
-sf::Time currentTime;
+sf::Clock eventClock;
 
+highScores highscores;
 Audio audio;
 Graphics graphics;
 InputMonitor inputMonitor;
@@ -36,8 +37,9 @@ void Main::resetGame()
     audio.playBGM();
     gameMain.setDropSpeed(2000);
     gameMain.setScore(0);
-    gameMain.setLevel(0);
+    gameMain.setTotalLines(0);
     lockedBlocks.clear();
+    gameMain.setEventText("");
     gameMain.setGameStart(false);
     gameMain.setGameOver(false);
 }
@@ -45,7 +47,11 @@ bool gameOverSoundPlayed = false;
 
 int main()
 {
-
+    if (gameMain.getLoadHighScores())
+    {
+        gameMain.setHighScores(highscores.getHighScores());
+        gameMain.setLoadHighScores(false);
+    }
     // Play BGM (from audio.cpp)
     audio.playBGM();
     audio.loadAudio();
@@ -73,7 +79,7 @@ int main()
     // Main game loop
     while (window.isOpen())
     {
-        currentTime = gameClock.getElapsedTime();
+        highscores.compareHighScore();
         // Clear display
         window.clear();
         // Check for events.
@@ -105,6 +111,15 @@ int main()
                     gameOverSoundPlayed = true; // Set the flag so the sound only plays once
                 }
                 window.draw(graphics.gameOver());
+
+                // Check if there is a new highscore.
+                if (highscores.compareHighScore())
+                {
+                    gameMain.setEventText("New Highscore!");
+                    gameMain.setIsEvent(true);
+
+                    // TO BE IMPLEMENTED.
+                }
             }
             else
             { // Check if clock is greater than preset "drop speed", if so, drop piece one block.
@@ -114,8 +129,29 @@ int main()
                 // Draw all locked pieces.
                 graphics.drawLockedPieces(window, lockedBlocks, currentSprite);
             }
+            // Check for game events ("Lined Cleared! etc")
+            // Keep event clock reset unless there is an event, otherwise clock will exceed event duration and when an event is triggered, immediately reset causing text to only flash.
+            if (!gameMain.getIsEvent())
+            {
+                eventClock.restart();
+            }
+            else
+            {
+                // Draw the event text.
+                window.draw(graphics.eventText(gameMain.getEventText()));
+                // Check if 2 seconds have passed.
+                if (eventClock.getElapsedTime().asSeconds() >= 2)
+                {
+                    gameMain.setIsEvent(false);
+                    eventClock.restart();
+                }
+            }
             // Draw area that displays next piece.
             window.draw(graphics.nextPieceArea());
+            // Draw area that displays global highscores.
+            window.draw(graphics.highScores());
+            // Draw global highscores text.
+            window.draw(graphics.highScoreText());
             // Draw next piece.
             graphics.drawNextBlock(window, nextSprite, gameMain.getNextPiece());
             // Draw score/level area.
@@ -125,8 +161,9 @@ int main()
         }
         else
         {
-            // Flahses "Start Game" text on and off every 400ms.
-            if (currentTime.asMilliseconds() >= 400)
+            // Flashes "Start Game" text on and off every 400ms.
+            // We can reuse gameClock here as this only affects when no game is running.
+            if (gameClock.getElapsedTime().asMilliseconds() >= 400)
             {
                 gameClock.restart();
                 gameMain.getShowStartText() == true ? gameMain.setShowStartText(false) : gameMain.setShowStartText(true);
