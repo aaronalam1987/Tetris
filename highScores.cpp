@@ -101,10 +101,10 @@ void highScores::createNewHighScores()
     // Build 10 empty entries.
     for (int i = 0; i < 10; i++)
     {
-        jsonData.push_back({{"name", ""}, {"score", ""}});
+        jsonData.push_back({{"name", ""}, {"score", 0}});
     }
 
-    std::ofstream scoresFile("score.json");
+    std::ofstream scoresFile("scores.json");
     if (scoresFile.is_open())
     {
         scoresFile << jsonData.dump(4);

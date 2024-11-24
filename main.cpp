@@ -47,10 +47,17 @@ bool gameOverSoundPlayed = false;
 
 int main()
 {
-    if (gameMain.getLoadHighScores())
+    if (std::filesystem::exists("scores.json"))
     {
-        gameMain.setHighScores(highscores.getHighScores());
-        gameMain.setLoadHighScores(false);
+        if (gameMain.getLoadHighScores())
+        {
+            gameMain.setHighScores(highscores.getHighScores());
+            gameMain.setLoadHighScores(false);
+        }
+    }
+    else{
+        highscores.createNewHighScores();
+        gameMain.getHighScores();
     }
     // Play BGM (from audio.cpp)
     audio.playBGM();
