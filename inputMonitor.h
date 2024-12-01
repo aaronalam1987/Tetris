@@ -21,6 +21,7 @@ public:
     InputMonitor() = default;
 
     int monitorInput(sf::RenderWindow &window);
+    void enterHighScore();
 };
 
 #endif

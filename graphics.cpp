@@ -92,24 +92,37 @@ sf::RectangleShape Graphics::scoreArea()
     return scoreArea;
 }
 
-// Highscore entry area.
-#include <SFML/Graphics.hpp>
-
-sf::RectangleShape Graphics::highscoreEntry() {
-    // Create the rectangle shape
-    sf::RectangleShape highScoreArea(sf::Vector2f(400, 150));
-    highScoreArea.setFillColor(sf::Color::White);
-    highScoreArea.setOutlineColor(sf::Color::Cyan);
-    highScoreArea.setOutlineThickness(2);
+// Area for new highscore name entry.
+sf::RectangleShape Graphics::highscoreEntryArea() {
     
-    // Set the position of the rectangle
-    sf::FloatRect boundaries = highScoreArea.getGlobalBounds();
-    highScoreArea.setPosition((1024 - boundaries.width) / 2, 200);
-
+    sf::RectangleShape highscoreEntryArea(sf::Vector2f(350, 50));
+    highscoreEntryArea.setFillColor(sf::Color::White);
+    highscoreEntryArea.setOutlineColor(sf::Color::Cyan);
+    highscoreEntryArea.setOutlineThickness(2);
     
+     // Set position centre.
+    sf::FloatRect boundaries = highscoreEntryArea.getGlobalBounds();
+    highscoreEntryArea.setPosition((1024 - boundaries.width) / 2, 200);
 
-    // Return both elements, to be drawn separately
-    return highScoreArea;
+    return highscoreEntryArea;
+}
+
+// Draw highscores text.
+sf::Text Graphics::highscoreEntryText()
+{
+    sf::Text highscoreEntryText;
+
+    highscoreEntryText.setFont(font);
+    highscoreEntryText.setString("Enter Name: " + highscores.getHighScoreName());
+    highscoreEntryText.setCharacterSize(28);
+    highscoreEntryText.setFillColor(sf::Color::Black);
+    highscoreEntryText.setStyle(sf::Text::Bold);
+
+    // Set position within area on right of screen.
+    sf::FloatRect boundaries = highscoreEntryText.getGlobalBounds();
+    highscoreEntryText.setPosition((1024 - boundaries.width) / 2, 200);
+
+    return highscoreEntryText;
 }
 
 // Draw stat text (score/level).

@@ -15,7 +15,7 @@ public:
     sf::RectangleShape nextPieceArea();
     sf::RectangleShape highScores();
     sf::RectangleShape scoreArea();
-    sf::RectangleShape highscoreEntry();
+    sf::RectangleShape highscoreEntryArea();
     sf::Text highscoreEntryText();
     sf::Text stats();
     sf::Text highScoreText();

@@ -18,7 +18,7 @@ void highScores::loadHighScores()
     }
 }
 
-void highScores::updateHighScores(int pos, std::string name)
+void highScores::updateHighScores(int pos)
 {
     // Open scores file.
     std::ifstream inputFile("scores.json");
@@ -34,7 +34,7 @@ void highScores::updateHighScores(int pos, std::string name)
             // Parse the JSON.
             json jsonHighScore = json::parse(inputFile);
             jsonHighScore[pos]["score"] = gameMain.getScore();
-            jsonHighScore[pos]["name"] = name;
+            jsonHighScore[pos]["name"] = highscores.getHighScoreName();
 
             // Save the updated file.
             std::ofstream outputFile("scores.json");
@@ -48,9 +48,9 @@ void highScores::updateHighScores(int pos, std::string name)
     }
 }
 
-bool highScores::compareHighScore()
+int highScores::compareHighScore()
 {
-    bool isScoreReplace = false;
+    int isScoreReplace = 0;
     size_t replacePosition = -1;
     int lowestScore = std::numeric_limits<int>::max();
 
@@ -80,18 +80,13 @@ bool highScores::compareHighScore()
                     replacePosition = i;
                 }
             }
-
-            if (replacePosition != -1)
-            {
-                isScoreReplace = true;
-            }
         }
         catch (json::parse_error &e)
         {
             std::cout << "Error parsing JSON." << std::endl;
         }
     }
-    return isScoreReplace;
+    return replacePosition;
 }
 
 void highScores::createNewHighScores()
@@ -118,6 +113,7 @@ void highScores::createNewHighScores()
 
 std::string highScores::getHighScores()
 {
+    int pos = 1;
     // Highscore string to append scores from file.
     std::string highScores;
 
@@ -139,7 +135,13 @@ std::string highScores::getHighScores()
             // Iterate through json.
             for (const auto &entry : jsonHighScore)
             {
-                highScores += entry["name"].get<std::string>() + " " + std::to_string(entry["score"].get<int>()) + "\n";
+
+                // Initial highscore file is populated with scores of 0, do not display these.
+                if (entry["score"] != 0)
+                {
+                    highScores += std::to_string(pos) + ": " + entry["name"].get<std::string>() + " - " + std::to_string(entry["score"].get<int>()) + "\n";
+                }
+                pos++;
             }
         }
         catch (json::parse_error &e)

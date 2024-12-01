@@ -19,6 +19,7 @@ sf::Vector2i originPosition(16, 3);
 sf::Sprite nextSprite;
 sf::Clock gameClock;
 sf::Clock eventClock;
+sf::Image icon;
 
 highScores highscores;
 Audio audio;
@@ -42,23 +43,32 @@ void Main::resetGame()
     gameMain.setEventText("");
     gameMain.setGameStart(false);
     gameMain.setGameOver(false);
+    gameMain.setLoadHighScores(true);
 }
 bool gameOverSoundPlayed = false;
 
 int main()
 {
-    if (std::filesystem::exists("scores.json"))
+    // Set icon.
+    icon.loadFromFile("assets/icon.png");
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    
+    // Check if we should load highscores file.
+    if (gameMain.getLoadHighScores())
     {
-        if (gameMain.getLoadHighScores())
+        // If scores file exists, load it, if not, generate it.
+        if (std::filesystem::exists("scores.json"))
         {
             gameMain.setHighScores(highscores.getHighScores());
             gameMain.setLoadHighScores(false);
         }
+        else
+        {
+            highscores.createNewHighScores();
+            gameMain.getHighScores();
+        }
     }
-    else{
-        highscores.createNewHighScores();
-        gameMain.getHighScores();
-    }
+
     // Play BGM (from audio.cpp)
     audio.playBGM();
     audio.loadAudio();
@@ -96,8 +106,17 @@ int main()
             {
                 window.close();
             }
-            // Checks for input and out of bounds blocks.
+
+            // Check for inputs here because pollEvent is event driven, if we do it in main loop we need to add some debounce.
+
+            // Checks for key input and out of bounds blocks.
             pieceManager.checkInput(lockedBlocks, originPosition, window);
+
+            // Checks if game is over and allow name entry.
+            if (gameMain.getGameOver())
+            {
+                inputMonitor.enterHighScore();
+            }
         }
 
         // Set up our game window, clear window, draw associated block by looping through array, display sprites.
@@ -110,22 +129,22 @@ int main()
             //  If game is over, draw entire play screen but do not drop piece, do not draw locked blocks and show "game over" text.
             if (gameMain.getGameOver())
             {
-                // game over here
+
                 audio.stopBGM();
                 if (!gameOverSoundPlayed)
                 {
                     audio.playSound(5);
-                    gameOverSoundPlayed = true; // Set the flag so the sound only plays once
+                    gameOverSoundPlayed = true; // Set the flag so the sound only plays once.
                 }
                 window.draw(graphics.gameOver());
 
                 // Check if there is a new highscore.
-                if (highscores.compareHighScore())
+                if (highscores.compareHighScore() > -1)
                 {
                     gameMain.setEventText("New Highscore!");
                     gameMain.setIsEvent(true);
-
-                    // TO BE IMPLEMENTED.
+                    window.draw(graphics.highscoreEntryArea());
+                    window.draw(graphics.highscoreEntryText());
                 }
             }
             else
