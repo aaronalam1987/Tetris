@@ -46,7 +46,7 @@ I mean, is working a feature? It works as expected, blocks fall, make a line and
 * **Game Over Screen**: A game over screen displays with matching sound effects when you hit the top of the board!
 
 ## Planned Features
-* **Highscore Feature**: Save and display the top ten highscores!
+* ~~Highscore Feature: Save and display the top ten highscores!~~ *Now implemented!*
 * **Pause Functionality**: Add the ability to pause the game.
 * **Power-ups?**
 
