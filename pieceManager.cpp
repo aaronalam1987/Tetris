@@ -196,7 +196,7 @@ void PieceManager::dropPiece(sf::Clock &clock, sf::Vector2i &originPosition, std
         {
             clock.restart();
             // Check piece is within playField.
-            if (originPosition.y < gameMain.gridHeight())
+            if (originPosition.y <= gameMain.gridHeight())
             {
                 originPosition.y += 1;
             }
